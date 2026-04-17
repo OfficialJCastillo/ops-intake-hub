@@ -1,0 +1,66 @@
+<svg width="1280" height="860" viewBox="0 0 1280 860" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1280" height="860" fill="#EEF3ED"/>
+  <rect width="1280" height="860" fill="url(#bg)"/>
+  <circle cx="1110" cy="116" r="164" fill="#D6EFE5"/>
+  <rect x="84" y="78" width="1112" height="704" rx="36" fill="#FBFDF8" stroke="#C8D6CF" stroke-width="2"/>
+
+  <text x="124" y="138" fill="#1D6B57" font-family="Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="2.8">OPERATIONAL INTAKE BEFORE EXECUTION</text>
+  <text x="124" y="196" fill="#13211B" font-family="Georgia, serif" font-size="52" font-weight="700">ops-intake-hub demo UI</text>
+  <text x="124" y="236" fill="#55645D" font-family="Arial, sans-serif" font-size="22">Normalize messy requests into queue, priority, owner, and next-action guidance.</text>
+
+  <rect x="124" y="286" width="366" height="438" rx="28" fill="#FBFDF8" stroke="#C8D6CF" stroke-width="2"/>
+  <text x="152" y="330" fill="#55645D" font-family="Arial, sans-serif" font-size="18">Title</text>
+  <rect x="152" y="344" width="310" height="48" rx="16" fill="white" stroke="#C8D6CF"/>
+  <text x="170" y="374" fill="#13211B" font-family="Arial, sans-serif" font-size="18">Customer outage on billing portal</text>
+
+  <text x="152" y="430" fill="#55645D" font-family="Arial, sans-serif" font-size="18">Details</text>
+  <rect x="152" y="444" width="310" height="128" rx="18" fill="white" stroke="#C8D6CF"/>
+  <text x="170" y="476" fill="#13211B" font-family="Arial, sans-serif" font-size="17">Multiple customers are blocked today</text>
+  <text x="170" y="502" fill="#13211B" font-family="Arial, sans-serif" font-size="17">and finance cannot process invoices.</text>
+  <text x="170" y="528" fill="#13211B" font-family="Arial, sans-serif" font-size="17">We may need a rollback.</text>
+
+  <text x="152" y="610" fill="#55645D" font-family="Arial, sans-serif" font-size="18">Affected system</text>
+  <rect x="152" y="624" width="310" height="48" rx="16" fill="white" stroke="#C8D6CF"/>
+  <text x="170" y="654" fill="#13211B" font-family="Arial, sans-serif" font-size="18">billing-portal</text>
+
+  <rect x="152" y="690" width="194" height="44" rx="22" fill="url(#button)"/>
+  <text x="206" y="718" fill="white" font-family="Arial, sans-serif" font-size="18" font-weight="700">Assess intake</text>
+
+  <rect x="522" y="286" width="634" height="438" rx="28" fill="#FBFDF8" stroke="#C8D6CF" stroke-width="2"/>
+  <text x="554" y="330" fill="#13211B" font-family="Georgia, serif" font-size="32" font-weight="700">Triage preview</text>
+
+  <rect x="554" y="354" width="126" height="36" rx="18" fill="#D6EFE5"/>
+  <text x="586" y="377" fill="#124838" font-family="Arial, sans-serif" font-size="16" font-weight="700">incident</text>
+  <rect x="692" y="354" width="124" height="36" rx="18" fill="#D6EFE5"/>
+  <text x="717" y="377" fill="#124838" font-family="Arial, sans-serif" font-size="16" font-weight="700">critical</text>
+  <rect x="828" y="354" width="190" height="36" rx="18" fill="#D6EFE5"/>
+  <text x="856" y="377" fill="#124838" font-family="Arial, sans-serif" font-size="16" font-weight="700">incident-command</text>
+
+  <text x="554" y="430" fill="#13211B" font-family="Arial, sans-serif" font-size="18">Triage this incident from slack as critical priority</text>
+  <text x="554" y="458" fill="#13211B" font-family="Arial, sans-serif" font-size="18">and route it to incident-command.</text>
+  <text x="554" y="500" fill="#55645D" font-family="Arial, sans-serif" font-size="17">Recommended owner: incident lead</text>
+  <text x="554" y="528" fill="#55645D" font-family="Arial, sans-serif" font-size="17">Due window: within 30 minutes</text>
+
+  <rect x="554" y="560" width="280" height="132" rx="18" fill="#F2F8F3"/>
+  <text x="576" y="592" fill="#55645D" font-family="Arial, sans-serif" font-size="18">Next actions</text>
+  <text x="576" y="622" fill="#13211B" font-family="Arial, sans-serif" font-size="16">1. Acknowledge receipt immediately</text>
+  <text x="576" y="646" fill="#13211B" font-family="Arial, sans-serif" font-size="16">2. Assign incident lead</text>
+  <text x="576" y="670" fill="#13211B" font-family="Arial, sans-serif" font-size="16">3. Define mitigation path</text>
+
+  <rect x="862" y="560" width="262" height="132" rx="18" fill="#F2F8F3"/>
+  <text x="884" y="592" fill="#55645D" font-family="Arial, sans-serif" font-size="18">Risk flags</text>
+  <text x="884" y="622" fill="#13211B" font-family="Arial, sans-serif" font-size="16">• Delayed routing increases churn</text>
+  <text x="884" y="646" fill="#13211B" font-family="Arial, sans-serif" font-size="16">• Customer downtime may require</text>
+  <text x="884" y="670" fill="#13211B" font-family="Arial, sans-serif" font-size="16">  executive updates</text>
+
+  <defs>
+    <linearGradient id="bg" x1="640" y1="0" x2="640" y2="860" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F7FBF7"/>
+      <stop offset="1" stop-color="#EEF3ED"/>
+    </linearGradient>
+    <linearGradient id="button" x1="152" y1="712" x2="346" y2="712" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1D6B57"/>
+      <stop offset="1" stop-color="#0E5A71"/>
+    </linearGradient>
+  </defs>
+</svg>
