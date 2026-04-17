@@ -1,5 +1,7 @@
 # ops-intake-hub
 
+[![CI](https://github.com/OfficialJCastillo/ops-intake-hub/actions/workflows/ci.yml/badge.svg)](https://github.com/OfficialJCastillo/ops-intake-hub/actions/workflows/ci.yml)
+
 A deterministic intake triage API for turning messy operational requests into queue, priority, ownership, deadline, and next-action guidance.
 
 ## Overview
@@ -14,6 +16,12 @@ A deterministic intake triage API for turning messy operational requests into qu
 - return immediate next actions through a small FastAPI service
 
 This repo is intentionally deterministic and local-first so its behavior stays inspectable, stable, and easy to review publicly.
+
+## Demo Snapshot
+
+Tiny browser demo preview:
+
+![ops-intake-hub demo snapshot](docs/ops-intake-demo-snapshot.svg)
 
 ## V1 Scope
 
@@ -104,6 +112,23 @@ It then renders the live structured triage response without needing Postman or a
 - The system is intentionally deterministic so routing behavior is easy to inspect and discuss.
 - This project complements `workflow-copilot` by handling intake normalization before deeper planning.
 - It complements `rag-eval-lab` by showing applied operational product thinking rather than evaluation infrastructure.
+
+## GitHub Setup Notes
+
+Suggested repo description:
+
+`Deterministic intake triage API for routing operational requests into the right queue, owner, and response window.`
+
+Suggested topics:
+
+- `operations`
+- `triage`
+- `fastapi`
+- `python`
+- `workflow`
+- `intake`
+- `routing`
+- `api`
 
 ## Roadmap
 
