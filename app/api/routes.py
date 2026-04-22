@@ -1,6 +1,7 @@
 from app.api.demo_ui import render_demo_ui
 from app.schemas.models import IntakeAssessment
 from app.schemas.models import IntakeRequest
+from app.schemas.models import TriageRulesResponse
 from app.services.triage import IntakeTriageService
 from fastapi import APIRouter
 
@@ -23,3 +24,7 @@ def health() -> dict[str, str]:
 def assess_intake(request: IntakeRequest) -> IntakeAssessment:
     return triage_service.assess(request)
 
+
+@router.get("/triage/rules", response_model=TriageRulesResponse)
+def triage_rules() -> TriageRulesResponse:
+    return triage_service.rules()

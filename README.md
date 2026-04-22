@@ -28,7 +28,8 @@ Tiny browser demo preview:
 - Local FastAPI service
 - Deterministic intake triage with no hosted dependencies
 - Triage categories for incidents, access requests, vendor requests, customer escalations, bug reports, and general operations
-- Structured response schema with queue, owner, due window, next actions, missing fields, and risk flags
+- Structured response schema with queue, owner, due window, SLA policy, routing rationale, next actions, missing fields, and risk flags
+- Rules endpoint for inspecting category routing, owner defaults, required fields, priority signals, and SLA windows
 - Tiny browser demo at `GET /`
 - Smoke tests and GitHub Actions CI
 
@@ -50,7 +51,7 @@ ops-intake-hub/
 
 1. Submit a raw request such as "Customer outage on billing portal."
 2. The service classifies the request into a category such as `incident` or `access_request`.
-3. It returns a target queue, urgency level, due window, recommended owner, missing fields, and next actions.
+3. It returns a target queue, urgency level, SLA window, recommended owner, missing fields, routing rationale, and next actions.
 4. A team can then route the item into planning, ticketing, or incident handling with cleaner structure.
 
 ## How To Run
@@ -73,6 +74,7 @@ http://127.0.0.1:8000/
 - `GET /` (tiny demo UI)
 - `GET /health`
 - `POST /triage/assess`
+- `GET /triage/rules`
 
 ## Example Response
 
@@ -83,7 +85,12 @@ http://127.0.0.1:8000/
   "queue": "incident-command",
   "recommended_owner": "incident lead",
   "due_window": "within 30 minutes",
+  "sla_policy": "critical priority routes incident intake within 30 minutes.",
   "summary": "Triage this incident from slack as critical priority and route it to incident-command.",
+  "routing_rationale": [
+    "Matched incident routing signals from the intake text.",
+    "Applied critical SLA policy: within 30 minutes."
+  ],
   "next_actions": [
     "Acknowledge receipt immediately and start incident coordination.",
     "Assign an incident lead and confirm current impact."
@@ -105,11 +112,13 @@ The root page provides a one-screen intake form for:
 - requester team
 - affected system
 
-It then renders the live structured triage response without needing Postman or a separate frontend.
+It then renders the live structured triage response without needing Postman or a separate frontend. The page also loads `GET /triage/rules` so reviewers can see the deterministic category and SLA policy behind the assessment.
 
 ## Design Notes
 
 - The system is intentionally deterministic so routing behavior is easy to inspect and discuss.
+- SLA windows and category rules are exposed through `GET /triage/rules` instead of hidden inside the service.
+- Missing-field checks are category-specific so vendor, access, incident, and bug requests ask for different follow-up inputs.
 - This project complements `workflow-copilot` by handling intake normalization before deeper planning.
 - It complements `rag-eval-lab` by showing applied operational product thinking rather than evaluation infrastructure.
 

@@ -114,6 +114,10 @@ def render_demo_ui() -> HTMLResponse:
       padding: 20px;
       background: rgba(255,255,255,0.55);
     }
+    .section-divider {
+      border-top: 1px solid var(--border);
+      margin: 22px 0;
+    }
     .badge-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
     .badge {
       background: var(--accent-2);
@@ -171,6 +175,11 @@ def render_demo_ui() -> HTMLResponse:
         <div id="results" class="placeholder">
           Submit a request to see queue, priority, owner, risks, missing fields, and next actions.
         </div>
+        <div class="section-divider"></div>
+        <h2>Triage rules</h2>
+        <div id="rules" class="placeholder">
+          Loading deterministic SLA policy and category rules from <code>GET /triage/rules</code>.
+        </div>
       </section>
     </section>
   </main>
@@ -179,7 +188,17 @@ def render_demo_ui() -> HTMLResponse:
     const form = document.getElementById("intake-form");
     const statusNode = document.getElementById("status");
     const resultNode = document.getElementById("results");
+    const rulesNode = document.getElementById("rules");
     const submitButton = document.getElementById("submit");
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;");
+    }
 
     function renderList(items, ordered) {
       const tag = ordered ? "ol" : "ul";
@@ -194,27 +213,64 @@ def render_demo_ui() -> HTMLResponse:
       resultNode.innerHTML = `
         <section class="card full">
           <div class="badge-row">
-            <span class="badge">Category: ${data.triage_category.replaceAll("_", " ")}</span>
-            <span class="badge">Priority: ${data.priority}</span>
-            <span class="badge">Queue: ${data.queue}</span>
+            <span class="badge">Category: ${escapeHtml(data.triage_category.replaceAll("_", " "))}</span>
+            <span class="badge">Priority: ${escapeHtml(data.priority)}</span>
+            <span class="badge">Queue: ${escapeHtml(data.queue)}</span>
           </div>
-          <p>${data.summary}</p>
-          <p><strong>Recommended owner:</strong> ${data.recommended_owner}</p>
-          <p><strong>Due window:</strong> ${data.due_window}</p>
+          <p>${escapeHtml(data.summary)}</p>
+          <p><strong>Recommended owner:</strong> ${escapeHtml(data.recommended_owner)}</p>
+          <p><strong>Due window:</strong> ${escapeHtml(data.due_window)}</p>
+          <p><strong>SLA policy:</strong> ${escapeHtml(data.sla_policy)}</p>
         </section>
         <section class="card">
           <h3>Next actions</h3>
-          ${renderList(data.next_actions, true)}
+          ${renderList(data.next_actions.map(escapeHtml), true)}
         </section>
         <section class="card">
           <h3>Missing fields</h3>
-          ${renderList(data.missing_fields, false)}
+          ${renderList(data.missing_fields.map(escapeHtml), false)}
         </section>
         <section class="card">
           <h3>Risk flags</h3>
-          ${renderList(data.risk_flags, false)}
+          ${renderList(data.risk_flags.map(escapeHtml), false)}
+        </section>
+        <section class="card full">
+          <h3>Routing rationale</h3>
+          ${renderList(data.routing_rationale.map(escapeHtml), false)}
         </section>
       `;
+    }
+
+    function renderRules(data) {
+      const priorityRows = Object.entries(data.priority_due_windows).map(
+        ([priority, window]) => `<strong>${escapeHtml(priority)}</strong>: ${escapeHtml(window)}`
+      );
+      const categoryRows = data.category_rules.map((rule) => `
+        <strong>${escapeHtml(rule.triage_category.replaceAll("_", " "))}</strong>
+        routes to ${escapeHtml(rule.queue)} with ${escapeHtml(rule.recommended_owner)} as owner.
+        Required intake: ${escapeHtml(rule.required_fields.join(", "))}.
+      `);
+
+      rulesNode.className = "result-grid";
+      rulesNode.innerHTML = `
+        <section class="card">
+          <h3>SLA windows</h3>
+          ${renderList(priorityRows, false)}
+        </section>
+        <section class="card">
+          <h3>Category rules</h3>
+          ${renderList(categoryRows, false)}
+        </section>
+      `;
+    }
+
+    async function loadRules() {
+      const response = await fetch("/triage/rules");
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error("Unable to load triage rules.");
+      }
+      renderRules(data);
     }
 
     form.addEventListener("submit", async (event) => {
@@ -250,9 +306,13 @@ def render_demo_ui() -> HTMLResponse:
         submitButton.disabled = false;
       }
     });
+
+    loadRules().catch((error) => {
+      rulesNode.className = "placeholder";
+      rulesNode.textContent = error.message;
+    });
   </script>
 </body>
 </html>
         """
     )
-
